@@ -7,8 +7,8 @@ public class App {
         //这是一个匿名内部类
         new GameJFrame();
 
-        new LoginJFrame();
+       // new LoginJFrame();
 
-        new RegisterJFrame();
+       // new RegisterJFrame();
     }
 }
