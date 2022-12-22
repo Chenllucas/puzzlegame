@@ -1,6 +1,7 @@
 package com.itheima.ui;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class GameJFrame extends JFrame {
     //游戏的业务逻辑写在这里
@@ -14,11 +15,82 @@ public class GameJFrame extends JFrame {
         //初始化菜单
         initJMenuBar();
 
-        //初始化图片
+        //初始化数据（打乱）
+        initData();
+
+
+        //初始化图片（根据打乱之后的结果去加载图片）
         initImage();
 
         //让界面显示出来，放在最后，不然可能会造成界面显示错误
         this.setVisible(true);
+    }
+
+    private void initData() {
+/*
+        思路：
+        1，定义一个一维数组，这个数组里面的元素对应了每个图片的对应位置
+        2，打乱数组中的数据顺序
+        3，创建一个二维数组
+        4，把打乱的数组里面的元素添加到二维数组里面去
+         */
+
+        //1，定义一个一维数组，这个数组里面的元素对应了每个图片的对应位置
+        int[] tempArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+
+        //2，打乱数组中的数据顺序
+        //遍历数组，得到每一个元素，然后用每一个元素跟随机索引上的数进行交换
+        Random r = new Random();
+        for (int i = 0; i < tempArr.length; i++) {
+            //定义一个变量来储存随机的索引
+            int index = r.nextInt(tempArr.length);
+            //然后把每一个元素跟这个随机索引上的数进行交换
+            int temp = tempArr[i];
+            tempArr[i] = tempArr[index];
+            tempArr[index] = temp;
+        }
+
+
+        //3，遍历一维数组内的元素
+        for (int i = 0; i < tempArr.length; i++) {
+            System.out.print(tempArr[i] + ",");
+        }
+
+        //4，创建一个二维数组
+        int[][] data = new int[4][4];
+
+
+//        //5,给二维数组添加数组
+//        //解法1
+//        //先遍历二维数组
+//        //然后把一维数组中的元素逐个添加到二维数组中去
+//        for (int i = 0; i < tempArr.length; i++) {
+//            data[i / 4][i % 4] = tempArr[i];
+//        }
+//
+//        //遍历二维数组，验证答案是否正确
+//        for (int i = 0; i < data.length; i++) {
+//            for (int j = 0; j < data[i].length; j++) {
+//                System.out.print(data[i][j] + " ");
+//            }
+//        }
+
+        //解法2
+        //遍历二维数组，给里面的每一个数组赋值
+        int index = 0;
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j] = tempArr[index];
+                index++;
+            }
+        }
+
+        //遍历二维数组
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.print(data[i][j] + " ");
+            }
+        }
     }
 
     private void initImage() {
