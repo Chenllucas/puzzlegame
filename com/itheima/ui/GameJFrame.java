@@ -1,9 +1,15 @@
 package com.itheima.ui;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.util.Random;
 
 public class GameJFrame extends JFrame {
+
+    //创建一个二维数组
+    //目的：管理数组
+    //加载图片的时候会根据二维数组中的数据进行加载
+    int[][] data = new int[4][4];
     //游戏的业务逻辑写在这里
     //构造方法设定游戏界面的默认
     public GameJFrame() {
@@ -26,6 +32,8 @@ public class GameJFrame extends JFrame {
         this.setVisible(true);
     }
 
+
+    //初始化数据（打乱）
     private void initData() {
 /*
         思路：
@@ -56,11 +64,10 @@ public class GameJFrame extends JFrame {
             System.out.print(tempArr[i] + ",");
         }
 
-        //4，创建一个二维数组
-        int[][] data = new int[4][4];
 
 
-//        //5,给二维数组添加数组
+
+//        //4,给二维数组添加数组
 //        //解法1
 //        //先遍历二维数组
 //        //然后把一维数组中的元素逐个添加到二维数组中去
@@ -94,24 +101,41 @@ public class GameJFrame extends JFrame {
     }
 
     private void initImage() {
+
+        //路径分为两种
+        //绝对路径：一定是从盘符开始的。C:\
+        //相对路径：不是从盘符开始的。 aaa\\bbb
+        //相对路径是相对当前项目而言
+        //在当前项目下，去找项目下的aaa文件夹中的bbb文件
+        //先加载的图片在上方，后加载的图片在下方
+
         //此变量用于对图片编号的计数，以便每次循环都能切换图片
-        int number = 1;
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
+                //获取当前要加载图片的序号
+                int num = data[i][j];
                 //创建一个图片ImageIcon对象
-                ImageIcon icon = new ImageIcon("C:\\Users\\chenl\\IdeaProjects\\chenllucas\\com\\itheima\\ui\\sport1\\" + number + ".jpg");
+                ImageIcon icon = new ImageIcon("C:\\Users\\chenl\\IdeaProjects\\chenllucas\\com\\itheima\\ui\\sport1\\" + num + ".jpg");
                 //创建一个JLabel的对象（管理容器）
                 JLabel jLabel = new JLabel(icon);
                 //指定图片的位置
-                jLabel.setBounds(105 * i, 105 * j, 105, 105);
+                jLabel.setBounds(105 * i + 83, 105 * j + 134, 105, 105);
 
+                //给图片添加边框
+                //可以传递两个值，1是让图片凹进去，0是凸出来
+                jLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
                 //把管理容器添加到界面中
                 //这个隐藏容器在创建JFrame的时候就已经创建好了，所以在这里就直接使用getContenPane方法就可以了
                 this.getContentPane().add(jLabel);
-                //number循环自增1
-                number++;
             }
         }
+        //添加背景图片
+        ImageIcon bg = new ImageIcon("C:\\Users\\chenl\\IdeaProjects\\chenllucas\\com\\itheima\\ui\\background.png");
+        JLabel background = new JLabel(bg);
+        background.setBounds(40,40,508,560);
+        //把背景图片添加到界面当中
+        this.getContentPane().add(background);
+
     }
 
     private void initJMenuBar() {
@@ -146,7 +170,7 @@ public class GameJFrame extends JFrame {
     private void initJFrame() {
         //初始化界面
         //设置界面的宽高
-        this.setSize(800, 800);
+        this.setSize(603, 680);
         //设置界面的标题
         this.setTitle("拼图游戏终极版v1.0 开发者；陈龙");
         //设置界面的置顶
@@ -155,7 +179,7 @@ public class GameJFrame extends JFrame {
         this.setLocationRelativeTo(null);
         //设置程序的默认关闭模式，关闭模式为关闭窗口之后程序就停止运行
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //取消默认的居中放置
+        //取消默认的居中放置，只有取消了才会按照XY轴的形式添加组件
         this.setLayout(null);
     }
 }
